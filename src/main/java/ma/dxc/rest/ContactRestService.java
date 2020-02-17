@@ -70,7 +70,7 @@ public class ContactRestService {
 	 * @return
 	 */
 	@RequestMapping(value="/contacts/{id}",method=RequestMethod.DELETE)
-	public boolean deleteContact(@PathVariable Long id){
+	public Contact deleteContact(@PathVariable Long id){
 		return contactservice.delete(id);
 	}
 	

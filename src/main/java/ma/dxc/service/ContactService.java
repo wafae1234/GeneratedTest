@@ -18,7 +18,7 @@ public interface ContactService {
 	public List<Contact> findAll();
 	public Optional<Contact> findOne(long id);
 	public Contact save(Contact contact);
-	public boolean delete(Long id);
+	public Contact delete(Long id);
 	public Page<Contact> search(String mc, int page, int size);
 	public Contact update(Long id,Contact c);
 }

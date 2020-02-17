@@ -45,15 +45,7 @@ public class ContactServiceImpl implements ContactService {
 		return contactrepository.save(contact) ;
 	}
 	
-	/**
-	 * Cette fonction supprime un contact.
-	 */
-	@Override
-	public boolean delete(Long id) {
-		contactrepository.deleteById(id);
-		return true;
-	}
-
+	
 	 /**
 	  * Cette fonction fait la recherche sur un contact par mot clé.
 	  */
@@ -76,6 +68,14 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public Contact update(@Valid Long id, Contact contact) {
 		contact.setId(id);
+		return contactrepository.save(contact);
+	}
+
+	@Override
+	public Contact delete(@Valid Long id) {
+		Contact contact = contactrepository.findById(id).get();
+		System.out.println(contact.toString());
+		contact.setDeleted(true);
 		return contactrepository.save(contact);
 	}
 

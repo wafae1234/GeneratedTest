@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Where;
 import org.springframework.lang.NonNull;
 
 /**
@@ -21,35 +22,48 @@ import org.springframework.lang.NonNull;
  *
  */
 @Entity
+@Where(clause = "deleted = 0")
 public class Contact implements Serializable {
 	
 	@Id @GeneratedValue
 	private Long id;
 	
-	@NotNull(message = "Veuillez saisir votre nom !")
-	@Size(min=4,max=16,message="votre nom doit etre compris entre 4 et 16 caractères")
+	@NotNull
+	@Size
 	private String nom;
 	
-	@NotNull(message = "Veuillez saisir votre prénom !")
-	@Size(min=4,max=16,message="votre prénom doit etre compris entre 4 et 16 caractères")
+	@NotNull
+	@Size
 	private String prenom;
 	
 	@Temporal(TemporalType.DATE)
-	@NotNull(message = "Veuillez saisir votre date de naissance !")
+	@NotNull
 	private Date dateNaissance;
 	
-	@NotNull(message = "Veuillez saisir votre email !")
+	@NotNull
 	@Email
 	private String email;
 	
-	@Size(min=10,max=10,message="votre numero de téléphone doit contenir 10 caractères")
-	@NotNull(message = "Veuillez saisir votre numero de telephone !")
+	@Size
+	@NotNull
 	private String tel;
 	
 	@NotNull
 	private String photo;
 	
+	private boolean deleted = false;
 	
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+
 	public Contact() {
 		super();
 		// TODO Auto-generated constructor stub
