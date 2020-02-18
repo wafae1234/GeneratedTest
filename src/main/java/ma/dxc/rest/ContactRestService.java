@@ -97,9 +97,10 @@ public class ContactRestService {
 	public Page<Contact> searchContact( 
 			@RequestParam(name="mc",defaultValue = "")String mc,
 			@RequestParam(name="page",defaultValue = "0")int page,
-			@RequestParam(name="size",defaultValue = "5")int size
+			@RequestParam(name="size",defaultValue = "5")int size,
+			@RequestParam(name="column")String column
 			){
-		return contactservice.search(mc, page, size);
+		return contactservice.search(mc, page, size, column);
 	}
 	
 

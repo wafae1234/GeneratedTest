@@ -3,13 +3,21 @@ package ma.dxc.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Sort;
 
 import ma.dxc.model.Contact;
 import ma.dxc.repository.ContactRepository;
@@ -47,11 +55,28 @@ public class ContactServiceImpl implements ContactService {
 	
 	
 	 /**
-	  * Cette fonction fait la recherche sur un contact par mot clé.
+	  * Cette fonction fait la recherche sur un contact par mot clé et critére (column).
 	  */
 	@Override
-	public Page<Contact> search(String mc, int page, int size) {
-		return contactrepository.chercher("%"+ mc +"%", PageRequest.of(page, size));
+	public Page<Contact> search(String mc, int page, int size, String column) {
+		List<Contact> list =null;
+		if(mc.isEmpty() || column.isEmpty()) {
+			list= contactrepository.findAll();
+		}else
+		
+		 list = contactrepository.findAll(new Specification<Contact>() {
+			
+			@Override
+			public Predicate toPredicate(Root<Contact> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+				
+				Predicate p = cb.conjunction();
+				p = cb.and(p, cb.like(root.get(column), "%"+mc+"%"));
+				return p;
+			}
+		});
+		 //Cast List<Contact> to Page<Contact>
+		 PageImpl<Contact> pageImpl = new PageImpl<Contact>(list,  PageRequest.of(page, size, Sort.unsorted()), list.size());
+		 return pageImpl;
 	}
 
 	/**
