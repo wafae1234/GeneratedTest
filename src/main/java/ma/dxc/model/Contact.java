@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Where;
-import org.springframework.lang.NonNull;
 
 /**
  * Contact est la classe qui représente un contact.

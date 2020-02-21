@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ma.dxc.model.Contact;
-import ma.dxc.repository.ContactRepository;
 import ma.dxc.service.ContactServiceImpl;
 
 /**
@@ -39,7 +41,7 @@ public class ContactRestService {
 	 * cette fonction nous retourne la liste des contacts.
 	 * @return
 	 */
-	@RequestMapping(value="/contacts",method=RequestMethod.GET)
+	@GetMapping(value="/contacts")
 	public List<Contact> getContacts(){
 		return contactservice.findAll();
 	}
@@ -49,7 +51,7 @@ public class ContactRestService {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/contacts/{id}",method=RequestMethod.GET)
+	@GetMapping(value="/contacts/{id}")
 	public Optional<Contact> getContact(@PathVariable Long id){
 		return contactservice.findOne(id);
 	}
@@ -59,7 +61,7 @@ public class ContactRestService {
 	 * @param contact
 	 * @return
 	 */
-	@RequestMapping(value="/contacts",method=RequestMethod.POST)
+	@PostMapping(value="/contacts")
 	public Contact saveContact(@RequestBody Contact contact){
 		return contactservice.save(contact);
 	}
@@ -69,7 +71,7 @@ public class ContactRestService {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/contacts/{id}",method=RequestMethod.DELETE)
+	@DeleteMapping(value="/contacts/{id}")
 	public Contact deleteContact(@PathVariable Long id){
 		return contactservice.delete(id);
 	}
@@ -80,7 +82,7 @@ public class ContactRestService {
 	 * @param contact
 	 * @return
 	 */
-	@RequestMapping(value="/contacts/{id}",method=RequestMethod.PUT)
+	@PutMapping(value="/contacts/{id}")
 	public Contact updateContact(@PathVariable Long id, @RequestBody Contact contact){
 		return contactservice.update(id, contact);
 	}
@@ -93,7 +95,7 @@ public class ContactRestService {
 	 * @param size
 	 * @return
 	 */
-	@RequestMapping(value="/chercherContact",method=RequestMethod.GET)
+	@GetMapping(value="/chercherContact")
 	public Page<Contact> searchContact( 
 			@RequestParam(name="mc",defaultValue = "")String mc,
 			@RequestParam(name="page",defaultValue = "0")int page,
