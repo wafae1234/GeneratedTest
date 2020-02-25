@@ -24,6 +24,11 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted = 0")
 public class Contact implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id @GeneratedValue
 	private Long id;
 	

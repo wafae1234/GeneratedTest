@@ -1,8 +1,6 @@
 package ma.dxc.rest;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,13 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ma.dxc.model.Contact;
-import ma.dxc.service.ContactServiceImpl;
+import ma.dxc.dto.ContactDTO;
+import ma.dxc.orchestration.ContactOrchestration;
 
 /**
  * C'est la classe responsable de l'API Rest qui joue le role de l'intermédiaire entre la partie backend et la partie 
@@ -31,19 +27,20 @@ import ma.dxc.service.ContactServiceImpl;
 public class ContactRestService {
 	
 	/**
-	 * On déclare un objet de la classe ContactServiceImpl qui va lui meme faire appel à la couche DAO
-	 * afin d'interagir avec la base de données.
+	 * On déclare un objet de la classe ContactOrchestration qui va lui meme faire appel à la couche ContactServiceImpl
+	 * pour alimenter les fonction ci dessous
 	 */
 	@Autowired
-	private ContactServiceImpl contactservice;
+	private ContactOrchestration contactOrchestration;
+	
 	
 	/**
 	 * cette fonction nous retourne la liste des contacts.
 	 * @return
 	 */
 	@GetMapping(value="/contacts")
-	public List<Contact> getContacts(){
-		return contactservice.findAll();
+	public List<ContactDTO> getContacts(){
+		return contactOrchestration.getContacts();
 	}
 	
 	/**
@@ -52,8 +49,8 @@ public class ContactRestService {
 	 * @return
 	 */
 	@GetMapping(value="/contacts/{id}")
-	public Optional<Contact> getContact(@PathVariable Long id){
-		return contactservice.findOne(id);
+	public ContactDTO getContact(@PathVariable Long id){
+		return contactOrchestration.getContact(id);
 	}
 	
 	/**
@@ -62,8 +59,8 @@ public class ContactRestService {
 	 * @return
 	 */
 	@PostMapping(value="/contacts")
-	public Contact saveContact(@RequestBody Contact contact){
-		return contactservice.save(contact);
+	public ContactDTO saveContact(@RequestBody ContactDTO contactDTO){
+		return contactOrchestration.saveContact(contactDTO);
 	}
 	
 	/**
@@ -72,8 +69,9 @@ public class ContactRestService {
 	 * @return
 	 */
 	@DeleteMapping(value="/contacts/{id}")
-	public Contact deleteContact(@PathVariable Long id){
-		return contactservice.delete(id);
+	public Boolean deleteContact(@PathVariable Long id){
+		contactOrchestration.deleteContact(id);
+		return true;
 	}
 	
 	/**
@@ -83,8 +81,8 @@ public class ContactRestService {
 	 * @return
 	 */
 	@PutMapping(value="/contacts/{id}")
-	public Contact updateContact(@PathVariable Long id, @RequestBody Contact contact){
-		return contactservice.update(id, contact);
+	public ContactDTO updateContact(@PathVariable Long id, @RequestBody ContactDTO contactDTO){
+		return contactOrchestration.updateContact(id, contactDTO);
 	}
 	
 	/**
@@ -96,13 +94,13 @@ public class ContactRestService {
 	 * @return
 	 */
 	@GetMapping(value="/chercherContact")
-	public Page<Contact> searchContact( 
+	public Page<ContactDTO> searchContact( 
 			@RequestParam(name="mc",defaultValue = "")String mc,
 			@RequestParam(name="page",defaultValue = "0")int page,
 			@RequestParam(name="size",defaultValue = "5")int size,
 			@RequestParam(name="column")String column
 			){
-		return contactservice.search(mc, page, size, column);
+		return contactOrchestration.searchContact(mc, page, size, column);
 	}
 	
 

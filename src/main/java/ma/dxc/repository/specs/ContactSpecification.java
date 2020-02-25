@@ -13,6 +13,10 @@ import ma.dxc.model.Contact;
 
 public class ContactSpecification implements Specification<Contact> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<SearchCriteria> list;
 	
 	public ContactSpecification() {

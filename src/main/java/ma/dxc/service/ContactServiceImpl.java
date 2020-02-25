@@ -1,7 +1,6 @@
 package ma.dxc.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -78,8 +77,8 @@ public class ContactServiceImpl implements ContactService {
 	 * Cette fonction retourne un contact en fonction de l'id.
 	 */
 	@Override
-	public Optional<Contact> findOne(long id) {
-		return contactrepository.findById(id);
+	public Contact findOne(long id) {
+		return contactrepository.getOne(id);
 	}
 
 	/**
