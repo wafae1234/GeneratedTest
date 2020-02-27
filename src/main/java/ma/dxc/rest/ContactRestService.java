@@ -103,5 +103,23 @@ public class ContactRestService {
 		return contactOrchestration.searchContact(mc, page, size, column);
 	}
 	
+	@GetMapping("/")
+	public String home(){
+		System.out.println("Welcome");
+		return null;
+	}
+	
+	@GetMapping("/user")
+	public String user(){
+		System.out.println("Welcome User");
+		return null;
+	}
+	
+	@GetMapping("/admin")
+	public String admin(){
+		System.out.println("Welcome admin");
+		return null;
+	}
+	
 
 }

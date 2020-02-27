@@ -21,9 +21,7 @@ class ContactApplicationTests {
 	@Autowired
 	private ContactServiceImpl contactservice;
 
-	@Test
-	void contextLoads() {
-	}
+	
 	
 	@Test
 	void contactToContactDTO() throws ParseException {

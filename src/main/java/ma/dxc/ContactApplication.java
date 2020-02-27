@@ -1,16 +1,25 @@
 package ma.dxc;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import ma.dxc.model.Contact;
+import ma.dxc.repository.UserRepository;
+import ma.dxc.service.ContactServiceImpl;
 
 
 @SpringBootApplication
+@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 public class ContactApplication implements CommandLineRunner {
 	@Autowired
-	//private ContactServiceImpl contactservice;
+	private ContactServiceImpl contactservice;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ContactApplication.class, args);
@@ -18,7 +27,7 @@ public class ContactApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		/*DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df= new SimpleDateFormat("dd/MM/yyyy");
 		
 		contactservice.save(new Contact("Hassani","Mohamed",df.parse("12/01/1998"),"hassan@gmail.com","0766873000","hassan.jpg"));
 		contactservice.save(new Contact("diae","diyaaEddine",df.parse("12/01/1998"),"diae@gmail.com","0766873000","diae.jpg"));
@@ -27,7 +36,7 @@ public class ContactApplication implements CommandLineRunner {
 		
 		contactservice.findAll().forEach(c -> {
 			System.out.println(c.getNom());
-		});*/
+		});
 		
 	}
 
