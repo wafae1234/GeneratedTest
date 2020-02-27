@@ -1,11 +1,9 @@
 package ma.dxc.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ma.dxc.model.User;
+import ma.dxc.model.AppUser;
 
-public interface UserRepository extends JpaRepository<User, Integer>{
-	Optional<User> findByUserName(String userName);
+public interface UserRepository extends JpaRepository<AppUser, Long> {
+	public AppUser findByUsername(String username);
 }
