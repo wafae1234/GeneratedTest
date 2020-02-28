@@ -1,4 +1,4 @@
-package ma.dxc.rest;
+package ma.dxc.model;
 
 public class RegisterForm {
 	private String username;
