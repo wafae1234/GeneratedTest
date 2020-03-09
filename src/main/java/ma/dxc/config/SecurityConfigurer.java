@@ -1,4 +1,4 @@
-package ma.dxc.security;
+package ma.dxc.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import ma.dxc.security.JwtRequestFilter;
 import ma.dxc.service.MyUserDetailsService;
 
 @EnableWebSecurity
@@ -37,8 +38,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-			.authorizeRequests().antMatchers("/authenticate","/register").permitAll()
-			.antMatchers("/contacts").hasAuthority("ADMIN")
+			.authorizeRequests().antMatchers("/authenticate","/register","/auditevents").permitAll()
+			.antMatchers("/contacts","/chercherContact").hasAuthority("ADMIN")
 			//.antMatchers(HttpMethod.POST,"/tasks").hasAuthority("ADMIN")
 			.anyRequest().authenticated()
 			.and().sessionManagement()
