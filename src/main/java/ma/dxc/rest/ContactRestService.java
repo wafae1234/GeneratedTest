@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +37,7 @@ import ma.dxc.service.MyUserDetailsService;
  */
 @RestController
 @CrossOrigin("*")
+@PreAuthorize("isAuthenticated()") 
 public class ContactRestService {
 	
 	/**
@@ -61,6 +63,7 @@ public class ContactRestService {
 	 * cette fonction nous retourne la liste des contacts.
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('READ')")
 	@GetMapping(value="/contacts")
 	public List<ContactDTO> getContacts(){
 		return contactOrchestration.getContacts();
@@ -71,6 +74,7 @@ public class ContactRestService {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('READ')")
 	@GetMapping(value="/contacts/{id}")
 	public ContactDTO getContact(@PathVariable Long id){
 		return contactOrchestration.getContact(id);
@@ -81,6 +85,7 @@ public class ContactRestService {
 	 * @param contact
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('ADD')")
 	@PostMapping(value="/contacts")
 	public ContactDTO saveContact(@RequestBody ContactDTO contactDTO){
 		return contactOrchestration.saveContact(contactDTO);
@@ -91,6 +96,7 @@ public class ContactRestService {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('DELETE')")
 	@DeleteMapping(value="/contacts/{id}")
 	public Boolean deleteContact(@PathVariable Long id){
 		contactOrchestration.deleteContact(id);
@@ -103,6 +109,7 @@ public class ContactRestService {
 	 * @param contact
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('UPDATE')")
 	@PutMapping(value="/contacts/{id}")
 	public ContactDTO updateContact(@PathVariable Long id, @RequestBody ContactDTO contactDTO){
 		return contactOrchestration.updateContact(id, contactDTO);
@@ -116,6 +123,7 @@ public class ContactRestService {
 	 * @param size
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('READ')")
 	@GetMapping(value="/chercherContact")
 	public Page<ContactDTO> searchContact( 
 			@RequestParam(name="mc",defaultValue = "")String mc,
@@ -126,6 +134,7 @@ public class ContactRestService {
 		return contactOrchestration.searchContact(mc, page, size, column);
 	}
 	
+	@PreAuthorize("permitAll()")
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 

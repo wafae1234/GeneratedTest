@@ -6,8 +6,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
@@ -18,6 +21,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Where;
+import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedBy;
+
 
 /**
  * Contact est la classe qui représente un contact.
@@ -28,9 +34,6 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted = 0")
 public class Contact implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue
@@ -60,32 +63,7 @@ public class Contact implements Serializable {
 	private String photo;
 	
 	private boolean deleted = false;
-	
-	@Column(name = "operation")
-    private String operation;
-	
-	@Column(name = "timestamp")
-    private long timestamp;
-	
-      
-    public String getOperation() {
-		return operation;
-	}
 
-
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
-
-
-	public long getTimestamp() {
-		return timestamp;
-	}
-
-
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
-	}
 	
 	public boolean isDeleted() {
 		return deleted;
@@ -187,27 +165,4 @@ public class Contact implements Serializable {
 	public String toString() {
 		return "Nom :"+this.nom+", Prenom:"+this.prenom+" email:"+this.email+"telephone:"+this.tel;
 	}
-	
-	@PrePersist
-    public void onPrePersist() {
-        audit("INSERT");
-    }
-      
-    @PreUpdate
-    public void onPreUpdate() {
-        audit("UPDATE");
-    }
-      
-    @PreRemove
-    public void onPreRemove() {
-        audit("DELETE");
-    }
-      
-    private void audit(String operation) {
-        setOperation(operation);
-        setTimestamp((new Date()).getTime());
-    }
-	
-	
-
 }
