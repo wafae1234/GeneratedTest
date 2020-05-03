@@ -1,0 +1,15 @@
+package ma.dxc.service.audit;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+import ma.dxc.model.Audit;
+
+public interface AuditService {
+	public List<Audit> findAll();
+	public Audit findOne(long id);
+	public Audit save(Audit audit);
+	public Page<Audit> search(String mc, int page, int size,String column);
+	public Audit update(Long id,Audit audit);
+}

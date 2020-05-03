@@ -4,25 +4,22 @@ package ma.dxc.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
+import javax.persistence.PostLoad;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.annotations.Where;
-import org.hibernate.envers.Audited;
-import org.springframework.data.annotation.CreatedBy;
+
+import ma.dxc.service.EntityListener.ContactEntityListener;
 
 
 /**
@@ -32,6 +29,7 @@ import org.springframework.data.annotation.CreatedBy;
  */
 @Entity
 @Where(clause = "deleted = 0")
+@EntityListeners(ContactEntityListener.class)
 public class Contact implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -161,8 +159,21 @@ public class Contact implements Serializable {
 		this.photo = photo;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return "Nom :"+this.nom+", Prenom:"+this.prenom+" email:"+this.email+"telephone:"+this.tel;
+		return "Contact [nom=" + nom + ", prenom=" + prenom + ", dateNaissance=" + dateNaissance + ", email=" + email
+				+ ", tel=" + tel + "]";
 	}
+
+
+
+	@Transient
+    private transient Contact savedState;
+
+    @PostLoad
+    private void saveState(){
+       this.savedState = SerializationUtils.clone(this); // from apache commons-lang
+    }
 }

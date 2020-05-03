@@ -9,12 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
 import ma.dxc.model.Contact;
 import ma.dxc.repository.ContactRepository;
 import ma.dxc.repository.specs.ContactSpecification;
 import ma.dxc.repository.specs.SearchCriteria;
 import ma.dxc.repository.specs.SearchOperation;
+import ma.dxc.service.EntityListener.ContactEntityListener;
 
 /**
  * Cette classe implémente l'interface ContactService, elle utilise un object de la class ContactRepository afin de profiter
@@ -64,7 +66,7 @@ public class ContactServiceImpl implements ContactService {
 		ContactSpecification contactSpecification = new ContactSpecification();
 		//le cas où le mot clé ou le nom de la colomne est vide
 		if(mc.isEmpty() || column.isEmpty()) 
-            contactSpecification.add(new SearchCriteria("email", "@", SearchOperation.MATCH));
+            contactSpecification.add(new SearchCriteria("id", "", SearchOperation.IS_NOT_EMPTY));
 		//si non
 		else
             contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
