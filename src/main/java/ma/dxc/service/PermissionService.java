@@ -10,6 +10,7 @@ public interface PermissionService {
 	
 	public List<Permission> findAll();
 	public Permission findOne(long id);
+	public Page<Permission> findAllPageable(int page,int size);
 	public Permission save(Permission permission);
 	public Page<Permission> search(String mc, int page, int size,String column);
 	public Permission update(Long id,Permission c);

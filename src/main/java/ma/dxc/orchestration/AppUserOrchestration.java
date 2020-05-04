@@ -77,5 +77,11 @@ public class AppUserOrchestration {
 	}
 	
 	
+	public Page<AppUserDTO> getPageOfUsers(int page,int size){
+		Page<AppUser> users = userservice.findAllPageable(page, size);
+		Page<AppUserDTO> userDTOs = AppUserMapper.INSTANCE.toAppUserDTOsPageable(users);
+		return userDTOs;
+	}
+	
 
 }

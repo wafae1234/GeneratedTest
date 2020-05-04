@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
@@ -66,7 +67,7 @@ public class ContactServiceImpl implements ContactService {
 		ContactSpecification contactSpecification = new ContactSpecification();
 		//le cas où le mot clé ou le nom de la colomne est vide
 		if(mc.isEmpty() || column.isEmpty()) 
-            contactSpecification.add(new SearchCriteria("id", "", SearchOperation.IS_NOT_EMPTY));
+            contactSpecification.add(new SearchCriteria("id", "id", SearchOperation.IS_NOT_EMPTY));
 		//si non
 		else
             contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
@@ -98,6 +99,12 @@ public class ContactServiceImpl implements ContactService {
 		System.out.println(contact.toString());
 		contact.setDeleted(true);
 		return contactrepository.save(contact);
+	}
+
+	@Override
+	public Page<Contact> findAllPageable(int page,int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return contactrepository.findAll(pageable);
 	}
 
 }

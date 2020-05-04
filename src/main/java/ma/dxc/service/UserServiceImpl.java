@@ -64,4 +64,11 @@ public class UserServiceImpl implements UserService {
 		return userRepository.saveAndFlush(appUser);
 	}
 
+	@Override
+	public Page<AppUser> findAllPageable(int page, int size) {
+		// TODO Auto-generated method stub
+		Pageable pageable = PageRequest.of(page, size);
+		return userRepository.findAll(pageable);
+	}
+
 }

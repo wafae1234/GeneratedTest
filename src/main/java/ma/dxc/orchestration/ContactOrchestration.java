@@ -87,5 +87,12 @@ public class ContactOrchestration {
 	}
 	
 	
+	public Page<ContactDTO> getPageofContacts(int page,int size){
+		Page<Contact> contacts = contactservice.findAllPageable(page, size);
+		Page<ContactDTO> contactDTOs = ContactMapper.INSTANCE.toContactDTOsPageable(contacts);
+		return contactDTOs;
+	}
+	
+	
 
 }

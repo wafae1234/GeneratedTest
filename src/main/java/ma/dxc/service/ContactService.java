@@ -13,6 +13,7 @@ import ma.dxc.model.Contact;
  */
 public interface ContactService {
 	public List<Contact> findAll();
+	public Page<Contact> findAllPageable(int page,int size);
 	public Contact findOne(long id);
 	public Contact save(Contact contact);
 	public Contact delete(Long id);

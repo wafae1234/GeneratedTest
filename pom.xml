@@ -110,6 +110,16 @@
 		    <version>3.10</version>
 		</dependency>
 		
+		<!-- spring data for pagination -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons-core -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-commons-core</artifactId>
+		    <version>1.1.0.RELEASE</version>
+		</dependency>
+		
+		
+		
 				
 	</dependencies>
 

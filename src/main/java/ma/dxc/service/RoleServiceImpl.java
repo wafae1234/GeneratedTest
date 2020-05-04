@@ -64,4 +64,11 @@ public class RoleServiceImpl implements RoleService {
 		return roleRepository.saveAndFlush(appRole);
 	}
 
+	@Override
+	public Page<AppRole> findAllPageable(int page, int size) {
+		// TODO Auto-generated method stub
+		Pageable pageable = PageRequest.of(page, size);
+		return roleRepository.findAll(pageable);
+	}
+
 }

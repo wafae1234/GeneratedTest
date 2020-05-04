@@ -126,12 +126,21 @@ public class ContactRestService {
 	@PreAuthorize("hasAuthority('READ')")
 	@GetMapping(value="/chercherContact")
 	public Page<ContactDTO> searchContact( 
-			@RequestParam(name="mc",defaultValue = "")String mc,
+			@RequestParam(name="mc",defaultValue = "chaali")String mc,
 			@RequestParam(name="page",defaultValue = "0")int page,
 			@RequestParam(name="size",defaultValue = "5")int size,
-			@RequestParam(name="column")String column
+			@RequestParam(name="column",defaultValue = "nom")String column
 			){
 		return contactOrchestration.searchContact(mc, page, size, column);
+	}
+	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping(value="/getPageOfContacts")
+	public Page<ContactDTO> getPageOfContacts( 
+			@RequestParam(name="page",defaultValue = "0")int page,
+			@RequestParam(name="size",defaultValue = "5")int size
+			){
+		return contactOrchestration.getPageofContacts(page, size);
 	}
 	
 	@PreAuthorize("permitAll()")

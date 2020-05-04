@@ -122,7 +122,14 @@ public class PermissionRestService {
 		return PermissionOrchestration.searchPermission(mc, page, size, column);
 	}
 	
-	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping(value="/getPageOfPermissions")
+	public Page<PermissionDTO> getPageOfPermissions( 
+			@RequestParam(name="page",defaultValue = "0")int page,
+			@RequestParam(name="size",defaultValue = "5")int size
+			){
+		return PermissionOrchestration.getPageOfPermissions(page, size);
+	}
 	
 
 }

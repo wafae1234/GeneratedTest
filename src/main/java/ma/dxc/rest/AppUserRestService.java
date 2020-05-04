@@ -103,6 +103,15 @@ public class AppUserRestService {
 		return AppUserOrchestration.searchAppUser(mc, page, size, column);
 	}
 	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping(value="/getPageOfUsers")
+	public Page<AppUserDTO> getPageOfUsers( 
+			@RequestParam(name="page",defaultValue = "0")int page,
+			@RequestParam(name="size",defaultValue = "5")int size
+			){
+		return AppUserOrchestration.getPageOfUsers(page, size);
+	}
+	
 	
 	
 

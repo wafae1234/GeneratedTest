@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+
 import java.lang.reflect.Type;
 
 import ma.dxc.dto.AppRoleDTO;
@@ -29,6 +31,14 @@ public class AppRoleMapperImpl implements AppRoleMapper {
 	@Override
 	public AppRole toAppRole(AppRoleDTO AppRoleDTO) {
 		return modelMapper.map(AppRoleDTO, AppRole.class);
+	}
+
+	@Override
+	public Page<AppRoleDTO> toAppRoleDTOsPageable(Page<AppRole> appRoles) {
+		// TODO Auto-generated method stub
+		Type listType = new TypeToken<Page<AppRoleDTO>>(){}.getType();
+		Page<AppRoleDTO> AppRoleDTOsPageable = modelMapper.map(appRoles,listType);
+		return AppRoleDTOsPageable;
 	}
 
 }

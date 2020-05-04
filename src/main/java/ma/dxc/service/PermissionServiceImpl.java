@@ -64,4 +64,11 @@ public class PermissionServiceImpl implements PermissionService {
 		return permissionrepository.saveAndFlush(permission);
 	}
 
+	@Override
+	public Page<Permission> findAllPageable(int page, int size) {
+		// TODO Auto-generated method stub
+		Pageable pageable = PageRequest.of(page, size);
+		return permissionrepository.findAll(pageable);
+	}
+
 }

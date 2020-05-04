@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+
 import java.lang.reflect.Type;
 
 import ma.dxc.dto.ContactDTO;
@@ -29,6 +31,14 @@ public class ContactMapperImpl implements ContactMapper {
 	@Override
 	public Contact toContact(ContactDTO contactDTO) {
 		return modelMapper.map(contactDTO, Contact.class);
+	}
+
+	@Override
+	public Page<ContactDTO> toContactDTOsPageable(Page<Contact> contacts) {
+		
+		Type listType = new TypeToken<Page<ContactDTO>>(){}.getType();
+		Page<ContactDTO> contactDTOsPageable = modelMapper.map(contacts,listType);
+		return contactDTOsPageable;
 	}
 
 }

@@ -76,6 +76,11 @@ public class PermissionOrchestration {
 		return new PageImpl<>(permissionDTOs,PageRequest.of(page, size),permissions.getTotalElements());
 	}
 	
+	public Page<PermissionDTO> getPageOfPermissions(int page,int size){
+		Page<Permission> permissions = Permissionservice.findAllPageable(page, size);
+		Page<PermissionDTO> permissionDTOs = PermissionMapper.INSTANCE.toPermissionDTOsPageable(permissions);
+		return permissionDTOs ;
+	}
 	
 
 }

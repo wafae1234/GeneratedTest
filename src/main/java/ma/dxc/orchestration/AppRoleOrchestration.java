@@ -77,5 +77,10 @@ public class AppRoleOrchestration {
 	}
 	
 	
+	public Page<AppRoleDTO> getPageOfRoles(int page,int size){
+		Page<AppRole> roles = roleservice.findAllPageable(page, size);
+		Page<AppRoleDTO> roleDTOs = AppRoleMapper.INSTANCE.toAppRoleDTOsPageable(roles);
+		return roleDTOs;
+	}
 
 }

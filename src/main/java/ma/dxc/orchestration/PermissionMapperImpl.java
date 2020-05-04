@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+
 import java.lang.reflect.Type;
 
 import ma.dxc.dto.PermissionDTO;
@@ -29,6 +31,14 @@ public class PermissionMapperImpl implements PermissionMapper {
 	@Override
 	public Permission toPermission(PermissionDTO PermissionDTO) {
 		return modelMapper.map(PermissionDTO, Permission.class);
+	}
+
+	@Override
+	public Page<PermissionDTO> toPermissionDTOsPageable(Page<Permission> Permissions) {
+		// TODO Auto-generated method stub
+		Type listType = new TypeToken<Page<PermissionDTO>>(){}.getType();
+		Page<PermissionDTO> PermissionDTOsPageable = modelMapper.map(Permissions,listType);
+		return PermissionDTOsPageable;
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+
 import java.lang.reflect.Type;
 
 import ma.dxc.dto.AppUserDTO;
@@ -29,6 +31,14 @@ public class AppUserMapperImpl implements AppUserMapper {
 	@Override
 	public AppUser toAppUser(AppUserDTO AppUserDTO) {
 		return modelMapper.map(AppUserDTO, AppUser.class);
+	}
+
+	@Override
+	public Page<AppUserDTO> toAppUserDTOsPageable(Page<AppUser> appUsers) {
+		// TODO Auto-generated method stub
+		Type listType = new TypeToken<Page<AppUserDTO>>(){}.getType();
+		Page<AppUserDTO> AppUserDTOspageable = modelMapper.map(appUsers,listType);
+		return AppUserDTOspageable;
 	}
 
 }

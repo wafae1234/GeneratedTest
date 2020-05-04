@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
 
 import ma.dxc.dto.AuditDTO;
 import ma.dxc.model.Audit;
@@ -30,6 +31,14 @@ public class AuditMapperImpl implements AuditMapper {
 	@Override
 	public Audit toAudit(AuditDTO auditDTO) {
 		return modelMapper.map(auditDTO, Audit.class);
+	}
+
+	@Override
+	public Page<AuditDTO> toAuditDTOsPageable(Page<Audit> audits) {
+		// TODO Auto-generated method stub
+		Type listType = new TypeToken<Page<AuditDTO>>(){}.getType();
+		Page<AuditDTO> auditDTOs = modelMapper.map(audits,listType);
+		return auditDTOs;
 	}
 
 }
