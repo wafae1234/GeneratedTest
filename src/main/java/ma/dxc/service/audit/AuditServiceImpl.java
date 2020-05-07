@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import ma.dxc.model.Audit;
 import ma.dxc.repository.AuditRepository;
+import ma.dxc.repository.specs.AuditSpecification;
+import ma.dxc.repository.specs.SearchCriteria;
+import ma.dxc.repository.specs.SearchOperation;
 
 @Service
 public class AuditServiceImpl implements AuditService {
@@ -38,8 +41,28 @@ public class AuditServiceImpl implements AuditService {
 	@Override
 	public Page<Audit> search(String mc, int page, int size, String column) {
 		// TODO Auto-generated method stub
-		return null;
+		auditRepository.findAll();
+		Pageable pageable = PageRequest.of(page, size);
+		AuditSpecification auditSpecification = new AuditSpecification();
+		auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		Page<Audit> msTitleList = auditRepository.findAll(auditSpecification,pageable);
+		return msTitleList;
 	}
+	
+	@Override
+	public Page<Audit> searchTwoKeywords(String mc1, String mc2, int page, int size, String column) {
+		// TODO Auto-generated method stub
+		auditRepository.findAll();
+		Pageable pageable = PageRequest.of(page, size);
+		AuditSpecification auditSpecificationG = new AuditSpecification();
+		AuditSpecification auditSpecificationL = new AuditSpecification();
+		auditSpecificationG.add(new SearchCriteria(column, mc1, SearchOperation.GREATER_THAN_EQUAL));
+		auditSpecificationL.add(new SearchCriteria(column, mc2, SearchOperation.LESS_THAN_EQUAL));
+		Page<Audit> msTitleList = auditRepository.findAll(auditSpecificationL.and(auditSpecificationG),pageable);
+		return msTitleList;
+	}
+	
+	
 
 	@Override
 	public Audit update(Long id, Audit audit) {

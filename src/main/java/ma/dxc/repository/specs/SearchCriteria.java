@@ -1,5 +1,6 @@
 package ma.dxc.repository.specs;
 
+import java.util.Date;
 
 /**
  * 

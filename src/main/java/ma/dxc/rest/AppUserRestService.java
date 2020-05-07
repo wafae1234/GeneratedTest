@@ -93,14 +93,14 @@ public class AppUserRestService {
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('READ')")
-	@GetMapping(value="/chercheruser")
-	public Page<AppUserDTO> searchAppUser( 
-			@RequestParam(name="mc",defaultValue = "")String mc,
+	@GetMapping(value="/searchForUsers")
+	public Page<AppUserDTO> searchForUsers( 
+			@RequestParam(name="keyword",defaultValue = "")String keyword,
 			@RequestParam(name="page",defaultValue = "0")int page,
 			@RequestParam(name="size",defaultValue = "5")int size,
 			@RequestParam(name="column")String column
 			){
-		return AppUserOrchestration.searchAppUser(mc, page, size, column);
+		return AppUserOrchestration.searchAppUser(keyword, page, size, column);
 	}
 	
 	@PreAuthorize("hasAuthority('READ')")

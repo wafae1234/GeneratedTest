@@ -1,5 +1,6 @@
 package ma.dxc.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -18,5 +19,6 @@ public interface ContactService {
 	public Contact save(Contact contact);
 	public Contact delete(Long id);
 	public Page<Contact> search(String mc, int page, int size,String column);
+	public Page<Contact> searchTwoKeywords(String mc1,String mc2, int page, int size,String column) throws ParseException;
 	public Contact update(Long id,Contact c);
 }

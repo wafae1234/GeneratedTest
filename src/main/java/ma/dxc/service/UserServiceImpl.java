@@ -46,11 +46,6 @@ public class UserServiceImpl implements UserService {
 		userRepository.findAll();
 		Pageable pageable = PageRequest.of(page, size);
 		UserSpecification userSpecification = new UserSpecification();
-		//le cas où le mot clé ou le nom de la colomne est vide
-		if(mc.isEmpty() || column.isEmpty()) 
-			userSpecification.add(new SearchCriteria("id", "0", SearchOperation.IS_NOT_EMPTY));
-		//si non
-		else
 			userSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
 		//pagination des resultats
 		Page<AppUser> msTitleList = userRepository.findAll(userSpecification,pageable);

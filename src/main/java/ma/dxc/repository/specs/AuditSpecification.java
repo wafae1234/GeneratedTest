@@ -9,9 +9,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
-import ma.dxc.model.Contact;
+import ma.dxc.model.Audit;
 
-public class ContactSpecification implements Specification<Contact> {
+public class AuditSpecification implements Specification<Audit> {
 	
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class ContactSpecification implements Specification<Contact> {
 	private static final long serialVersionUID = 1L;
 	private List<SearchCriteria> list;
 	
-	public ContactSpecification() {
+	public AuditSpecification() {
 		super();
 		this.list = new ArrayList<>();
 	}
@@ -29,7 +29,7 @@ public class ContactSpecification implements Specification<Contact> {
 	}
 
 	@Override
-	public Predicate toPredicate(Root<Contact> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+	public Predicate toPredicate(Root<Audit> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 		//creation d'une nouvelle predicate list
         List<Predicate> predicates = new ArrayList<>();
 
@@ -37,9 +37,7 @@ public class ContactSpecification implements Specification<Contact> {
         for (SearchCriteria criteria : list) {
             if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
                 predicates.add(builder.greaterThan(
-                        root.get(criteria.getKey()),criteria.getValue().toString()));
-                
-                
+                        root.get(criteria.getKey()), criteria.getValue().toString()));
             } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN)) {
                 predicates.add(builder.lessThan(
                 		root.get(criteria.getKey()), criteria.getValue().toString()));

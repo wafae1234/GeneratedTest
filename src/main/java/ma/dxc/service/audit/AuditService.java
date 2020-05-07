@@ -13,4 +13,5 @@ public interface AuditService {
 	public Audit save(Audit audit);
 	public Page<Audit> search(String mc, int page, int size,String column);
 	public Audit update(Long id,Audit audit);
+	public Page<Audit> searchTwoKeywords(String mc1, String mc2, int page, int size, String column);
 }

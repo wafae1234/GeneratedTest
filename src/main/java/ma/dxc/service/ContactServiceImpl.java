@@ -1,7 +1,12 @@
 package ma.dxc.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.Root;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,15 +70,28 @@ public class ContactServiceImpl implements ContactService {
 		contactrepository.findAll();
 		Pageable pageable = PageRequest.of(page, size);
 		ContactSpecification contactSpecification = new ContactSpecification();
-		//le cas où le mot clé ou le nom de la colomne est vide
-		if(mc.isEmpty() || column.isEmpty()) 
-            contactSpecification.add(new SearchCriteria("id", "id", SearchOperation.IS_NOT_EMPTY));
-		//si non
-		else
-            contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
 		//pagination des resultats
 		Page<Contact> msTitleList = contactrepository.findAll(contactSpecification, pageable);
         return msTitleList;
+			
+	}
+	
+	/**
+	  * Cette fonction fait la recherche sur un contact par deux mots clés et un critére (column).
+	 * @throws ParseException 
+	  */
+	@Override
+	public Page<Contact> searchTwoKeywords(String mc1, String mc2, int page, int size, String column){
+		//recevoire toute la liste
+		contactrepository.findAll();
+		Pageable pageable = PageRequest.of(page, size);
+		ContactSpecification contactSpecificationG = new ContactSpecification();
+		ContactSpecification contactSpecificationL = new ContactSpecification();
+		contactSpecificationG.add(new SearchCriteria(column, Double.parseDouble(mc1) , SearchOperation.GREATER_THAN));
+		contactSpecificationL.add(new SearchCriteria(column, Double.parseDouble(mc2) , SearchOperation.LESS_THAN));
+		Page<Contact> msTitleList = contactrepository.findAll(contactSpecificationG.and(contactSpecificationL),pageable);
+       return msTitleList;
 			
 	}
 	/**

@@ -1,5 +1,6 @@
 package ma.dxc.rest;
 
+import java.text.ParseException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -124,14 +125,26 @@ public class ContactRestService {
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('READ')")
-	@GetMapping(value="/chercherContact")
-	public Page<ContactDTO> searchContact( 
-			@RequestParam(name="mc",defaultValue = "chaali")String mc,
+	@GetMapping(value="/searchForContactsWithOnekeyword")
+	public Page<ContactDTO> searchForContactsWithOnekeyword( 
+			@RequestParam(name="keyword",defaultValue = "chaali")String keyword,
 			@RequestParam(name="page",defaultValue = "0")int page,
 			@RequestParam(name="size",defaultValue = "5")int size,
 			@RequestParam(name="column",defaultValue = "nom")String column
 			){
-		return contactOrchestration.searchContact(mc, page, size, column);
+		return contactOrchestration.searchContact(keyword, page, size, column);
+	}
+	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping(value="/searchForContactsWithTwoKeywords")
+	public Page<ContactDTO> searchForContactsWithTwoKeywords( 
+			@RequestParam(name="keyword1",defaultValue = "1000-01-01")String keyword1,
+			@RequestParam(name="keyword2",defaultValue = "9999-12-31")String keyword2,
+			@RequestParam(name="page",defaultValue = "0")int page,
+			@RequestParam(name="size",defaultValue = "5")int size,
+			@RequestParam(name="column",defaultValue = "nom")String column
+			) throws ParseException{
+		return contactOrchestration.searchTwoKeywords(keyword1, keyword2, page, size, column);
 	}
 	
 	@PreAuthorize("hasAuthority('READ')")

@@ -76,6 +76,12 @@ public class AuditOrchestration {
 		return new PageImpl<>(auditDTOs,PageRequest.of(page, size),audits.getTotalElements());
 	}
 	
+	public Page<AuditDTO> searchTwoKeywords(String mc1, String mc2, int page, int size, String column){
+		Page<Audit> audits = Auditservice.searchTwoKeywords(mc1, mc2, page, size, column);
+		Page<AuditDTO> auditDTOs = AuditMapper.INSTANCE.toAuditDTOsPageable(audits);
+		return auditDTOs;
+	}
+	
 	public Page<AuditDTO> getPageOfAudits(int page,int size){
 		Page<Audit> audits = Auditservice.findAllPageable(page, size);
 		Page<AuditDTO> auditDTOs = AuditMapper.INSTANCE.toAuditDTOsPageable(audits);

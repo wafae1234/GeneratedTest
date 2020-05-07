@@ -92,14 +92,14 @@ public class AppRoleRestService {
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('READ')")
-	@GetMapping(value="/chercherRole")
-	public Page<AppRoleDTO> searchAppRole( 
-			@RequestParam(name="mc",defaultValue = "")String mc,
+	@GetMapping(value="/searchForRoles")
+	public Page<AppRoleDTO> searchForRoles( 
+			@RequestParam(name="keyword",defaultValue = "")String keyword,
 			@RequestParam(name="page",defaultValue = "0")int page,
 			@RequestParam(name="size",defaultValue = "5")int size,
 			@RequestParam(name="column")String column
 			){
-		return AppRoleOrchestration.searchAppRole(mc, page, size, column);
+		return AppRoleOrchestration.searchAppRole(keyword, page, size, column);
 	}
 	
 	@PreAuthorize("hasAuthority('READ')")

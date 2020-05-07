@@ -1,5 +1,6 @@
 package ma.dxc.orchestration;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,12 @@ public class ContactOrchestration {
 	 */
 	public Page<ContactDTO> searchContact( String mc,int page,int size,String column){
 		Page<Contact> contacts = contactservice.search(mc, page, size, column);
+		List<ContactDTO> contactDTOs = ContactMapper.INSTANCE.toContactDTOs(contacts.getContent());
+		return new PageImpl<>(contactDTOs,PageRequest.of(page, size),contacts.getTotalElements());
+	}
+	
+	public Page<ContactDTO> searchTwoKeywords( String mc1,String mc2,int page,int size,String column) throws ParseException{
+		Page<Contact> contacts = contactservice.searchTwoKeywords(mc1, mc2, page, size, column);
 		List<ContactDTO> contactDTOs = ContactMapper.INSTANCE.toContactDTOs(contacts.getContent());
 		return new PageImpl<>(contactDTOs,PageRequest.of(page, size),contacts.getTotalElements());
 	}

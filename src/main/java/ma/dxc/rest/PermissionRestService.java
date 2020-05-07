@@ -112,14 +112,14 @@ public class PermissionRestService {
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('READ')")
-	@GetMapping(value="/chercherPermission")
-	public Page<PermissionDTO> searchPermission( 
-			@RequestParam(name="mc",defaultValue = "")String mc,
+	@GetMapping(value="/searchForPermissions")
+	public Page<PermissionDTO> searchForPermissions( 
+			@RequestParam(name="keyword",defaultValue = "")String keyword,
 			@RequestParam(name="page",defaultValue = "0")int page,
 			@RequestParam(name="size",defaultValue = "5")int size,
 			@RequestParam(name="column")String column
 			){
-		return PermissionOrchestration.searchPermission(mc, page, size, column);
+		return PermissionOrchestration.searchPermission(keyword, page, size, column);
 	}
 	
 	@PreAuthorize("hasAuthority('READ')")
