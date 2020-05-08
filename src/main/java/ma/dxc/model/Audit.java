@@ -1,5 +1,7 @@
 package ma.dxc.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,14 +23,14 @@ public class Audit {
 	private String user;
 	
 	@DateTimeFormat
-	private String date;
+	private Date date;
 	
 	@Enumerated(EnumType.STRING)
 	private Operation operation;
 	
 	private String changes;
 
-	public Audit(String user, Operation operation, String changes, String date) {
+	public Audit(String user, Operation operation, String changes, Date date) {
 		super();
 		this.user = user;
 		this.operation = operation;
@@ -41,7 +43,7 @@ public class Audit {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Audit(Long id, String user, String date, Operation operation, String changes) {
+	public Audit(Long id, String user, Date date, Operation operation, String changes) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -58,11 +60,11 @@ public class Audit {
 		this.user = user;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

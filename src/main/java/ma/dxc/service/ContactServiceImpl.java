@@ -70,11 +70,28 @@ public class ContactServiceImpl implements ContactService {
 		contactrepository.findAll();
 		Pageable pageable = PageRequest.of(page, size);
 		ContactSpecification contactSpecification = new ContactSpecification();
-		contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		System.out.println("column : "+column);
+		System.out.println("mc : "+mc);
+		if(isNumeric(mc)) {
+			contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.EQUAL));
+		}else {
+			contactSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		}
 		//pagination des resultats
 		Page<Contact> msTitleList = contactrepository.findAll(contactSpecification, pageable);
         return msTitleList;
 			
+	}
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        Long d = Long.parseLong(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 	
 	/**
@@ -88,8 +105,8 @@ public class ContactServiceImpl implements ContactService {
 		Pageable pageable = PageRequest.of(page, size);
 		ContactSpecification contactSpecificationG = new ContactSpecification();
 		ContactSpecification contactSpecificationL = new ContactSpecification();
-		contactSpecificationG.add(new SearchCriteria(column, Double.parseDouble(mc1) , SearchOperation.GREATER_THAN));
-		contactSpecificationL.add(new SearchCriteria(column, Double.parseDouble(mc2) , SearchOperation.LESS_THAN));
+		contactSpecificationG.add(new SearchCriteria(column, mc1 , SearchOperation.GREATER_THAN_EQUAL));
+		contactSpecificationL.add(new SearchCriteria(column, mc2 , SearchOperation.LESS_THAN_EQUAL));
 		Page<Contact> msTitleList = contactrepository.findAll(contactSpecificationG.and(contactSpecificationL),pageable);
        return msTitleList;
 			

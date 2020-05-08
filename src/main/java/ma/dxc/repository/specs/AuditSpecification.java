@@ -1,6 +1,9 @@
 package ma.dxc.repository.specs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -36,23 +39,57 @@ public class AuditSpecification implements Specification<Audit> {
         //ajouter criteria à predicates
         for (SearchCriteria criteria : list) {
             if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
-                predicates.add(builder.greaterThan(
-                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            	
+				try {
+					String dateValue = criteria.getValue().toString();
+					Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+	                predicates.add(builder.greaterThan(
+	                		root.get(criteria.getKey()), date1));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+                
+                
             } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN)) {
-                predicates.add(builder.lessThan(
-                		root.get(criteria.getKey()), criteria.getValue().toString()));
+				try {
+					String dateValue = criteria.getValue().toString();
+					Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+	                predicates.add(builder.lessThan(
+	                		root.get(criteria.<Date>getKey()), date1));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+                
+                
             } else if (criteria.getOperation().equals(SearchOperation.GREATER_THAN_EQUAL)) {
-                predicates.add(builder.greaterThanOrEqualTo(
-                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            	try {
+					String dateValue = criteria.getValue().toString();
+					Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+	                predicates.add(builder.greaterThanOrEqualTo(
+	                		root.get(criteria.getKey()), date1));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN_EQUAL)) {
-                predicates.add(builder.lessThanOrEqualTo(
-                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            	try {
+					String dateValue = criteria.getValue().toString();
+					System.out.println("dateValue : "+dateValue);
+					Date date1 = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+	                predicates.add(builder.lessThanOrEqualTo(
+	                		root.get(criteria.<Date>getKey()), date1));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             } else if (criteria.getOperation().equals(SearchOperation.NOT_EQUAL)) {
                 predicates.add(builder.notEqual(
                         root.get(criteria.getKey()), criteria.getValue()));
             } else if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
                 predicates.add(builder.equal(
-                        root.get(criteria.getKey()), criteria.getValue()));
+                        root.get(criteria.getKey()), Long.parseLong(criteria.getValue().toString())));
             }else if (criteria.getOperation().equals(SearchOperation.IS_NOT_EMPTY)) {
                 predicates.add(builder.isNotEmpty(
                 		root.get(criteria.getKey())));

@@ -106,7 +106,6 @@ public class ContactEntityListener{
 	    private void perform(Contact contact, Operation operation, String changes){
 		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		 Date currentDate = new Date();
-		 String date = formatter.format(currentDate); 
 		 
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    	String currentPrincipalName = authentication.getName();
@@ -114,7 +113,7 @@ public class ContactEntityListener{
 	    	
 		 
 	        EntityManager entityManager = BeanUtil.getBean(EntityManager.class);
-	        entityManager.persist(new Audit(currentPrincipalName,operation,changes,date));
+	        entityManager.persist(new Audit(currentPrincipalName,operation,changes,currentDate));
 	    }
 
 }

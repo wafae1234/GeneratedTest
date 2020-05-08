@@ -46,12 +46,27 @@ public class UserServiceImpl implements UserService {
 		userRepository.findAll();
 		Pageable pageable = PageRequest.of(page, size);
 		UserSpecification userSpecification = new UserSpecification();
+		if(isNumeric(mc)) {
+			userSpecification.add(new SearchCriteria(column, mc, SearchOperation.EQUAL));
+		}else {
 			userSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		}
 		//pagination des resultats
 		Page<AppUser> msTitleList = userRepository.findAll(userSpecification,pageable);
         return msTitleList;
 	}
 
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        Long d = Long.parseLong(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
 	@Override
 	public AppUser update(Long id, AppUser appUser) {
 		// TODO Auto-generated method stub

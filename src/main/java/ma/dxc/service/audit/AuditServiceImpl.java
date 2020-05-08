@@ -44,9 +44,25 @@ public class AuditServiceImpl implements AuditService {
 		auditRepository.findAll();
 		Pageable pageable = PageRequest.of(page, size);
 		AuditSpecification auditSpecification = new AuditSpecification();
-		auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		if(isNumeric(mc)) {
+			auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.EQUAL));
+		}else {
+			auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+		}
 		Page<Audit> msTitleList = auditRepository.findAll(auditSpecification,pageable);
 		return msTitleList;
+	}
+	
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        Long d = Long.parseLong(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 	
 	@Override

@@ -46,15 +46,26 @@ public class PermissionServiceImpl implements PermissionService {
 				permissionrepository.findAll();
 				Pageable pageable = PageRequest.of(page, size);
 				PermissionSpecification permissionSpecification = new PermissionSpecification();
-				//le cas où le mot clé ou le nom de la colomne est vide
-				if(mc.isEmpty() || column.isEmpty()) 
-		            permissionSpecification.add(new SearchCriteria("id", "0", SearchOperation.IS_NOT_EMPTY));
-				//si non
-				else
-		            permissionSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+				if(isNumeric(mc)) {
+					permissionSpecification.add(new SearchCriteria(column, mc, SearchOperation.EQUAL));
+				}else {
+					permissionSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
+				}
 				//pagination des resultats
 				Page<Permission> msTitleList = permissionrepository.findAll(permissionSpecification, pageable);
 		        return msTitleList;
+	}
+	
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        Long d = Long.parseLong(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 
 	@Override

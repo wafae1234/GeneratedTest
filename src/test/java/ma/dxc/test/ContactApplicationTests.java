@@ -52,5 +52,20 @@ class ContactApplicationTests {
 		
 		
 	}
+	
+	@Test
+	void isNumeric() throws ParseException {
+		assertThat(contactservice.isNumeric("22")).isTrue();
+		assertThat(contactservice.isNumeric("5.05")).isFalse();
+		assertThat(contactservice.isNumeric("-200")).isTrue(); 
+		assertThat(contactservice.isNumeric("10.0d")).isFalse();
+		assertThat(contactservice.isNumeric("   22   ")).isFalse();
+		  
+		assertThat(contactservice.isNumeric(null)).isFalse();
+		assertThat(contactservice.isNumeric("")).isFalse();
+		assertThat(contactservice.isNumeric("abc")).isFalse();
+		
+		
+	}
 
 }

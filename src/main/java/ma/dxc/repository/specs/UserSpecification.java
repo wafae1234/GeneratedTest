@@ -52,7 +52,7 @@ public class UserSpecification implements Specification<AppUser> {
                         root.get(criteria.getKey()), criteria.getValue()));
             } else if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
                 predicates.add(builder.equal(
-                        root.get(criteria.getKey()), criteria.getValue()));
+                        root.get(criteria.getKey()), Long.parseLong(criteria.getValue().toString())));
             }else if (criteria.getOperation().equals(SearchOperation.IS_NOT_EMPTY)) {
                 predicates.add(builder.isNotEmpty(
                 		root.get(criteria.getKey())));
