@@ -156,27 +156,7 @@ public class ContactRestService {
 		return contactOrchestration.getPageofContacts(page, size);
 	}
 	
-	@PreAuthorize("permitAll()")
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
-			);
-		}
-		catch (BadCredentialsException e) {
-			throw new Exception("Incorrect username or password", e);
-		}
-
-
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
-
-		final String jwt = jwtTokenUtil.generateToken(userDetails);
- 
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
-	}
+	
 	
 
 }
