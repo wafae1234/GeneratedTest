@@ -11,8 +11,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+
 import org.springframework.data.jpa.domain.Specification;
 import ma.dxc.model.Audit;
+import ma.dxc.service.audit.Operation;
 
 public class AuditSpecification implements Specification<Audit> {
 	
@@ -90,6 +92,9 @@ public class AuditSpecification implements Specification<Audit> {
             } else if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
                 predicates.add(builder.equal(
                         root.get(criteria.getKey()), Long.parseLong(criteria.getValue().toString())));
+            }else if (criteria.getOperation().equals(SearchOperation.MATCH_OPERATION)) {
+                predicates.add(builder.equal(
+                        root.get(criteria.getKey()), Operation.valueOf(criteria.getValue().toString())));
             }else if (criteria.getOperation().equals(SearchOperation.IS_NOT_EMPTY)) {
                 predicates.add(builder.isNotEmpty(
                 		root.get(criteria.getKey())));

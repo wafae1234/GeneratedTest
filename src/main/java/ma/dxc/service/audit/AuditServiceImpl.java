@@ -46,6 +46,8 @@ public class AuditServiceImpl implements AuditService {
 		AuditSpecification auditSpecification = new AuditSpecification();
 		if(isNumeric(mc)) {
 			auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.EQUAL));
+		}else if(column.equals("operation")){
+			auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH_OPERATION));
 		}else {
 			auditSpecification.add(new SearchCriteria(column, mc, SearchOperation.MATCH));
 		}
