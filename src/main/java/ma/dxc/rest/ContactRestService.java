@@ -48,7 +48,14 @@ public class ContactRestService {
 	@Autowired
 	private ContactOrchestration contactOrchestration;
 	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtUtil jwtTokenUtil;
 	
+	@Autowired
+	private MyUserDetailsService userDetailsService;
 	
 	
 	
@@ -128,7 +135,6 @@ public class ContactRestService {
 		return contactOrchestration.searchContact(keyword, page, size, column);
 	}
 	
-<<<<<<< HEAD
 	@PreAuthorize("hasAuthority('READ')")
 	@GetMapping(value="/searchForContactsWithTwoKeywords")
 	public Page<ContactDTO> searchForContactsWithTwoKeywords( 
@@ -172,7 +178,5 @@ public class ContactRestService {
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
 	
-=======
->>>>>>> 03c545f918a86ab8cc3fe1130c64efb73864dc5f
 
 }
