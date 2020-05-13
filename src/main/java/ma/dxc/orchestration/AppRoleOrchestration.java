@@ -82,5 +82,14 @@ public class AppRoleOrchestration {
 		Page<AppRoleDTO> roleDTOs = AppRoleMapper.INSTANCE.toAppRoleDTOsPageable(roles);
 		return roleDTOs;
 	}
+	
+	/**
+	 * cette fonction nous retourne le AppRole qui correspond à l'roleName de l'entrée
+	 * @param id
+	 * @return
+	 */
+	public AppRoleDTO getAppRoleByRoleName(String roleName){
+		return AppRoleMapper.INSTANCE.toAppRoleDTO(roleservice.getRoleByRoleName(roleName));
+	}
 
 }

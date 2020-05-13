@@ -14,4 +14,5 @@ public interface RoleService {
 	public AppRole save(AppRole appRole);
 	public Page<AppRole> search(String mc, int page, int size,String column);
 	public AppRole update(Long id,AppRole c);
+	public AppRole getRoleByRoleName(String roleName);
 }

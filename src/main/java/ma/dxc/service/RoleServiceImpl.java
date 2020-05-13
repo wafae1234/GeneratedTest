@@ -45,6 +45,12 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return roleRepository.save(appRole);
 	}
+	
+	@Override
+	public AppRole getRoleByRoleName(String roleName) {
+		// TODO Auto-generated method stub
+		return roleRepository.findByRoleName(roleName);
+	}
 
 	@Override
 	public Page<AppRole> search(String mc, int page, int size, String column) {

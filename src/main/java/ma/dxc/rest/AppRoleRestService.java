@@ -61,6 +61,17 @@ public class AppRoleRestService {
 	}
 	
 	/**
+	 * cette fonction nous retourne le AppRole qui correspond à l'roleName de l'entrée
+	 * @param id
+	 * @return
+	 */
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping(value="/getRoleByroleName")
+	public AppRoleDTO getAppRoleByRoleName(@RequestParam(name="roleName",defaultValue = "")String roleName){
+		return AppRoleOrchestration.getAppRoleByRoleName(roleName);
+	}
+	
+	/**
 	 * cette fonction prend un AppRole comme argument et puis elle le stock dans la base de donnée.
 	 * @param AppRole
 	 * @return
