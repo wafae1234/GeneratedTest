@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,8 +12,11 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import ma.dxc.service.EntityListener.UserEntityListener;
+
 
 @Entity
+@EntityListeners(UserEntityListener.class)
 public class AppUser {
 	@Id @GeneratedValue
 	private Long id;
@@ -67,6 +71,11 @@ public class AppUser {
 
 	public void setRoles(Collection<AppRole> roles) {
 		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return "AppUser [id=" + id + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
 	}
 	
 	

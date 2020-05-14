@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import ma.dxc.service.EntityListener.RoleEntityListener;
+
 @Entity
+@EntityListeners(RoleEntityListener.class)
 public class AppRole {
+	
 	@Id @GeneratedValue
 	private Long id;
 	private String roleName;
@@ -43,6 +48,11 @@ public class AppRole {
 	}
 	public void setPermissions(Collection<Permission> permissions) {
 		this.permissions = permissions;
+	}
+	
+	@Override
+	public String toString() {
+		return "AppRole [id=" + id + ", roleName=" + roleName + ", permissions=" + permissions + "]";
 	}
 	
 }

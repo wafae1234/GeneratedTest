@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -68,10 +69,6 @@ public class ContactEntityListener{
 		 this.contactOld = contact;
 	 }
 	 
-	/* @PostUpdate
-	 	public void postUpdate (Contact contact) {
-		 this.contactOld = contactServiceImpl.findOne(contact.getId());
-	 }*/
 	 
 	 
 	 @PrePersist
@@ -80,6 +77,8 @@ public class ContactEntityListener{
 	    	String changes = contact.toString();
 	        perform(contact,INSERTE_CONTACT,changes);
 	 }
+	 
+	 
 	 @PreUpdate
 	 	public void PreUpdate(Contact contactNew) {
 		 	long id = contactNew.getId();
@@ -111,9 +110,11 @@ public class ContactEntityListener{
 	    	String currentPrincipalName = authentication.getName();
 	    	System.out.println("currentPrincipalName : "+currentPrincipalName);
 	    	
-		 
+	    	Long objectID = contact.getId();
+	    	String objectType = contact.getClass().getName();
+	    	
 	        EntityManager entityManager = BeanUtil.getBean(EntityManager.class);
-	        entityManager.persist(new Audit(currentPrincipalName,operation,changes,currentDate));
+	        entityManager.persist(new Audit(currentPrincipalName,objectID,objectType,currentDate,operation,changes));
 	    }
 
 }

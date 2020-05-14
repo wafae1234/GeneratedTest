@@ -22,6 +22,26 @@ public class Audit {
 	
 	private String user;
 	
+	private Long objectID;
+	
+	private String objectType;
+	
+	public Long getObjectID() {
+		return objectID;
+	}
+
+	public void setObjectID(Long objectID) {
+		this.objectID = objectID;
+	}
+
+	public String getObjectType() {
+		return objectType;
+	}
+
+	public void setObjectType(String objectType) {
+		this.objectType = objectType;
+	}
+
 	@DateTimeFormat
 	private Date date;
 	
@@ -30,12 +50,14 @@ public class Audit {
 	
 	private String changes;
 
-	public Audit(String user, Operation operation, String changes, Date date) {
+	public Audit(String user, Long objectID, String objectType, Date date, Operation operation, String changes) {
 		super();
 		this.user = user;
+		this.objectID = objectID;
+		this.objectType = objectType;
+		this.date = date;
 		this.operation = operation;
 		this.changes = changes;
-		this.date = date;
 	}
 
 	public Audit() {

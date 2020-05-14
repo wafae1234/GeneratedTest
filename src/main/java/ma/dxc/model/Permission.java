@@ -1,10 +1,14 @@
 package ma.dxc.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import ma.dxc.service.EntityListener.PermissionEntityListener;
+
 @Entity
+@EntityListeners(PermissionEntityListener.class)
 public class Permission {
 	@Id @GeneratedValue
 	private Long id;
@@ -30,4 +34,10 @@ public class Permission {
 	public void setPermissionName(String permissionName) {
 		this.permissionName = permissionName;
 	}
+	@Override
+	public String toString() {
+		return "Permission [id=" + id + ", permissionName=" + permissionName + "]";
+	}
+	
+	
 }

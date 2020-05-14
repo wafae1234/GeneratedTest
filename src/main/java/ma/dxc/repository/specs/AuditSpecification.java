@@ -110,6 +110,13 @@ public class AuditSpecification implements Specification<Audit> {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
                         "%" + criteria.getValue().toString().toLowerCase()));
+            } else if (criteria.getOperation().equals(SearchOperation.MAX)) {
+                predicates.add(
+                		builder.max(
+                					root.get(criteria.getKey())
+                					).isNotNull()
+                		);
+                
             } else if (criteria.getOperation().equals(SearchOperation.IN)) {
                 predicates.add(builder.in(root.get(criteria.getKey())).value(criteria.getValue()));
             } else if (criteria.getOperation().equals(SearchOperation.NOT_IN)) {

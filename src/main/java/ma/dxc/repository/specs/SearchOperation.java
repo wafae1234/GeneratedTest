@@ -14,5 +14,6 @@ public enum SearchOperation {
     NOT_IN,
     IS_NOT_EMPTY,
     MATCH_OPERATION,
-    EQUAL_ROLENAME
+    EQUAL_ROLENAME,
+    MAX
 }

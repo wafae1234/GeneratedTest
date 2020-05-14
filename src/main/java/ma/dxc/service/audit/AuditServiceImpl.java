@@ -37,6 +37,17 @@ public class AuditServiceImpl implements AuditService {
 		// TODO Auto-generated method stub
 		return auditRepository.save(audit);
 	}
+	
+	@Override
+	public Long getMaxId() {
+		// TODO Auto-generated method stub
+		auditRepository.findAll();
+		Pageable pageable = PageRequest.of(1, 1);
+		AuditSpecification auditSpecification = new AuditSpecification();
+		auditSpecification.add(new SearchCriteria("id", "id", SearchOperation.MAX));
+		List<Audit> msTitleList = auditRepository.findAll(auditSpecification,pageable).getContent();
+		return msTitleList.get(0).getId();
+	}
 
 	@Override
 	public Page<Audit> search(String mc, int page, int size, String column) {

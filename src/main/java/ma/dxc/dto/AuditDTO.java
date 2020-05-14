@@ -6,6 +6,8 @@ public class AuditDTO {
 	
 	private Long id;
 	private String user;
+	private Long objectID;
+	private String objectType;
 	private String date;
 	private Operation operation;
 	private String changes;
@@ -39,10 +41,14 @@ public class AuditDTO {
 	public void setChanges(String changes) {
 		this.changes = changes;
 	}
-	public AuditDTO(Long id, String user, String date, Operation operation, String changes) {
+	
+	public AuditDTO(Long id, String user, Long objectID, String objectType, String date, Operation operation,
+			String changes) {
 		super();
 		this.id = id;
 		this.user = user;
+		this.objectID = objectID;
+		this.objectType = objectType;
 		this.date = date;
 		this.operation = operation;
 		this.changes = changes;
