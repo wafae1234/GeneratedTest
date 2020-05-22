@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.Root;
 import javax.validation.Valid;
 
@@ -16,13 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ma.dxc.model.Contact;
 import ma.dxc.repository.ContactRepository;
 import ma.dxc.repository.specs.ContactSpecification;
 import ma.dxc.repository.specs.SearchCriteria;
 import ma.dxc.repository.specs.SearchOperation;
-import ma.dxc.service.EntityListener.ContactEntityListener;
 
 /**
  * Cette classe implémente l'interface ContactService, elle utilise un object de la class ContactRepository afin de profiter
@@ -35,6 +36,7 @@ import ma.dxc.service.EntityListener.ContactEntityListener;
  *
  */
 @Service
+@Transactional
 public class ContactServiceImpl implements ContactService {
 	
 	/**
@@ -116,7 +118,7 @@ public class ContactServiceImpl implements ContactService {
 	 */
 	@Override
 	public Contact findOne(long id) {
-		return contactrepository.getOne(id);
+		return contactrepository.findById(id).orElseThrow(EntityNotFoundException::new);
 	}
 
 	/**
@@ -125,7 +127,9 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public Contact update(@Valid Long id, Contact contact) {
 		contact.setId(id);
-		return contactrepository.save(contact);
+		return contactrepository.save(contactrepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new)
+                .updateProperties(contact));
 	}
 
 	@Override

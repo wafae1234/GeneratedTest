@@ -10,10 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import ma.dxc.service.EntityListener.RoleEntityListener;
 
 @Entity
-@EntityListeners(RoleEntityListener.class)
 public class AppRole {
 	
 	@Id @GeneratedValue
@@ -55,5 +53,10 @@ public class AppRole {
 		return "AppRole [id=" + id + ", roleName=" + roleName + ", permissions=" + permissions + "]";
 	}
 	
+	public AppRole updateProperties(AppRole approle) {
+		this.roleName = approle.roleName;
+		this.permissions = approle.permissions;
+		return this;
+	}
 }
 

@@ -5,10 +5,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import ma.dxc.service.EntityListener.PermissionEntityListener;
 
 @Entity
-@EntityListeners(PermissionEntityListener.class)
 public class Permission {
 	@Id @GeneratedValue
 	private Long id;
@@ -39,5 +37,8 @@ public class Permission {
 		return "Permission [id=" + id + ", permissionName=" + permissionName + "]";
 	}
 	
-	
+	public Permission updateProperties(Permission permission) {
+		this.permissionName = permission.permissionName;
+		return this;
+	}
 }

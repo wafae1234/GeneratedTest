@@ -3,12 +3,15 @@ package ma.dxc.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ma.dxc.model.AppRole;
 import ma.dxc.model.Contact;
@@ -20,6 +23,7 @@ import ma.dxc.repository.specs.SearchCriteria;
 import ma.dxc.repository.specs.SearchOperation;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
@@ -37,7 +41,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public AppRole findOne(long id) {
 		// TODO Auto-generated method stub
-		return roleRepository.getOne(id);
+		return roleRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 	}
 
 	@Override
@@ -96,7 +100,9 @@ public class RoleServiceImpl implements RoleService {
 	public AppRole update(Long id, AppRole appRole) {
 		// TODO Auto-generated method stub
 		appRole.setId(id);
-		return roleRepository.saveAndFlush(appRole);
+		return roleRepository.save(roleRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new)
+                .updateProperties(appRole));
 	}
 
 	@Override

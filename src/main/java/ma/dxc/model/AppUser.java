@@ -12,11 +12,9 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import ma.dxc.service.EntityListener.UserEntityListener;
 
 
 @Entity
-@EntityListeners(UserEntityListener.class)
 public class AppUser {
 	@Id @GeneratedValue
 	private Long id;
@@ -78,6 +76,11 @@ public class AppUser {
 		return "AppUser [id=" + id + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
 	}
 	
-	
+	public AppUser updateProperties(AppUser appUser) {
+		this.username = appUser.username;
+		this.password = appUser.password;
+		this.roles = appUser.roles;
+		return this;
+	}
 
 }

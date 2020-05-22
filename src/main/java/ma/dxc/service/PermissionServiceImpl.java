@@ -2,11 +2,14 @@ package ma.dxc.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ma.dxc.model.Contact;
 import ma.dxc.model.Permission;
@@ -17,6 +20,7 @@ import ma.dxc.repository.specs.SearchCriteria;
 import ma.dxc.repository.specs.SearchOperation;
 
 @Service
+@Transactional
 public class PermissionServiceImpl implements PermissionService {
 	
 	@Autowired
@@ -31,7 +35,7 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public Permission findOne(long id) {
 		// TODO Auto-generated method stub
-		return permissionrepository.getOne(id);
+		return permissionrepository.findById(id).orElseThrow(EntityNotFoundException::new);
 	}
 
 	@Override
@@ -72,7 +76,9 @@ public class PermissionServiceImpl implements PermissionService {
 	public Permission update(Long id, Permission permission) {
 		// TODO Auto-generated method stub
 		permission.setId(id);
-		return permissionrepository.saveAndFlush(permission);
+		return permissionrepository.save(permissionrepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new)
+                .updateProperties(permission));
 	}
 
 	@Override

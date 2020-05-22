@@ -19,7 +19,6 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.annotations.Where;
 
-import ma.dxc.service.EntityListener.ContactEntityListener;
 
 
 /**
@@ -29,7 +28,6 @@ import ma.dxc.service.EntityListener.ContactEntityListener;
  */
 @Entity
 @Where(clause = "deleted = 0")
-@EntityListeners(ContactEntityListener.class)
 public class Contact implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -166,7 +164,17 @@ public class Contact implements Serializable {
 		return "Contact [nom=" + nom + ", prenom=" + prenom + ", dateNaissance=" + dateNaissance + ", email=" + email
 				+ ", tel=" + tel + "]";
 	}
-
+	
+	public Contact updateProperties(Contact contact){
+		this.nom = contact.nom;
+		this.prenom = contact.prenom;
+		this.dateNaissance = contact.dateNaissance;
+		this.email = contact.email;
+		this.tel = contact.tel;
+		this.photo = contact.photo;
+		this.deleted = contact.deleted;
+		return this;
+	}
 
 
 	@Transient
